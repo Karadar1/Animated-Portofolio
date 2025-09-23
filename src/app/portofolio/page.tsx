@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "@/components/Navbar";
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -124,7 +124,22 @@ export default function PortfolioNeoBrutalistAlt() {
   );
 }
 
-function ProjectCard({ project, index }: { project: any; index: number }) {
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: {
+    title: string;
+    summary: string;
+    role: string;
+    stack: string[];
+    cta: {
+      label: string;
+      href: string;
+    };
+  };
+  index: number;
+}) {
   return (
     <motion.article
       data-card

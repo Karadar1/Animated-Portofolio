@@ -62,7 +62,9 @@ export default function ContactNeoBrutalistBW() {
       await navigator.clipboard.writeText("andrei@example.com");
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch (_) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRouter } from "next/navigation"; // for App Router (Next 13+ with /app)
@@ -98,7 +98,7 @@ const FirstIntro = () => {
         className="text-[64px] font-semibold text-center mb-12 text-black whitespace-nowrap"
         style={{ fontFamily: "'Orbitron', sans-serif" }}
       >
-        Hi, I'm Lazau Andrei-Tudor
+        Hi, Im Lazau Andrei-Tudor
       </div>
 
       <div className="relative h-[800px]">

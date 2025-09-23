@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
-import ComicIntroDualBubbles from "@/components/ComicIntro";
 import ComicIntroWithNav from "@/components/ComicIntro";
 
 const Page = () => {
