@@ -16,6 +16,7 @@ import {
   Send,
   Copy,
 } from "lucide-react";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
@@ -101,12 +102,12 @@ export default function ContactNeoBrutalistBW() {
             </p>
           </div>
           <div className="flex gap-2">
-            <a
+            <Link
               className="inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-sm font-bold shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 hover:translate-x-0.5 transition"
               href="#form"
             >
               Start a brief <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
       </header>
@@ -224,18 +225,18 @@ export default function ContactNeoBrutalistBW() {
             <div className="bg-white border-4 border-black p-5 shadow-[10px_10px_0_0_#000]">
               <h3 className="text-xl font-extrabold">Direct</h3>
               <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <a
+                <Link
                   href="mailto:andrei@example.com"
                   className="border-2 border-black p-3 flex items-center gap-2 hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
                   <Mail className="w-4 h-4" /> andrei@example.com
-                </a>
-                <a
+                </Link>
+                <Link
                   href="tel:+40123456789"
                   className="border-2 border-black p-3 flex items-center gap-2 hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
                   <Phone className="w-4 h-4" /> +40 123 456 789
-                </a>
+                </Link>
               </div>
               <button
                 onClick={handleCopy}
@@ -248,18 +249,18 @@ export default function ContactNeoBrutalistBW() {
             <div className="bg-white border-4 border-black p-5 shadow-[10px_10px_0_0_#000]">
               <h3 className="text-xl font-extrabold">Elsewhere</h3>
               <div className="mt-3 grid grid-cols-2 gap-3">
-                <a
+                <Link
                   href="#"
                   className="border-2 border-black p-3 flex items-center justify-center gap-2 font-bold hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
                   <Github className="w-4 h-4" /> GitHub
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="border-2 border-black p-3 flex items-center justify-center gap-2 font-bold hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
                   <Linkedin className="w-4 h-4" /> LinkedIn
-                </a>
+                </Link>
               </div>
             </div>
 

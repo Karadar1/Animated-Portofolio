@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 type Props = {
   name?: string;
@@ -132,18 +133,18 @@ export default function ComicIntroWithNav({
 
                   {bubbles[index].ctas && (
                     <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-3">
-                      <a
-                        href="#portfolio"
-                        className="w-full sm:w-auto text-center px-4 py-3 border-4 border-black bg-black text-white text-sm font-black uppercase shadow-[6px_6px_0_0_#000] active:translate-x-0.5 active:-translate-y-0.5"
+                      <Link
+                        href="/portofolio"
+                        className="w-full sm:w-auto text-center px-4 py-3 border-4 border-black bg-white text-sm font-black uppercase shadow-[6px_6px_0_0_#000] active:translate-x-0.5 active:-translate-y-0.5"
                       >
                         View Work
-                      </a>
-                      <a
-                        href="#contact"
+                      </Link>
+                      <Link
+                        href="/contact"
                         className="w-full sm:w-auto text-center px-4 py-3 border-4 border-black bg-white text-black text-sm font-black uppercase shadow-[6px_6px_0_0_#000] active:translate-x-0.5 active:-translate-y-0.5"
                       >
                         Contact Me
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>

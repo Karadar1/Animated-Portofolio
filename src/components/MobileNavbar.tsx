@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
@@ -22,7 +23,7 @@ export default function MobileNavNeoBrutalist() {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const router = useRouter();
-  const pathname = usePathname(); // use real route for active state
+  const pathname = usePathname();
 
   const menuId = useId();
   const scope = useRef<HTMLDivElement | null>(null);
@@ -56,12 +57,10 @@ export default function MobileNavNeoBrutalist() {
     { scope, dependencies: [] }
   );
 
-  // Shrink the circle after the route actually changes
+  // Shrink after route change
   useGSAP(
     () => {
-      if (!roundRef.current) return;
-      // only shrink if we just navigated (expand ran)
-      if (!isTransitioning) return;
+      if (!roundRef.current || !isTransitioning) return;
 
       gsap.set(roundRef.current, { display: "block", opacity: 1, scale: 20 });
       gsap.to(roundRef.current, {
@@ -87,15 +86,12 @@ export default function MobileNavNeoBrutalist() {
     setIsTransitioning(true);
     pendingHref.current = href;
 
-    // ensure no stale callbacks stack up
     expandTl.current?.eventCallback("onComplete", null);
     expandTl.current?.eventCallback("onComplete", () => {
-      // push to the new page when the circle covers the screen
       if (pendingHref.current) router.push(pendingHref.current);
-      // shrinking will be triggered by the pathname change (effect above)
+      // shrink happens on pathname change
     });
 
-    // play the expand
     expandTl.current?.restart();
   };
 
@@ -119,8 +115,8 @@ export default function MobileNavNeoBrutalist() {
       {/* Top bar */}
       <div className="fixed left-0 right-0 top-0 z-[60] border-b-8 border-black bg-white">
         <div className="flex items-center justify-between px-4 py-4">
-          {/* Brand block */}
-          <a href="/" className="flex items-center gap-3">
+          {/* Brand block (Link instead of <a>) */}
+          <Link href="/" className="flex items-center gap-3">
             <div className="relative">
               <span className="block h-7 w-7 border-4 border-black bg-black rotate-45" />
               <span className="absolute top-1 left-1 block h-2 w-2 bg-white" />
@@ -133,8 +129,9 @@ export default function MobileNavNeoBrutalist() {
                 Tudor
               </span>
             </div>
-          </a>
+          </Link>
 
+          {/* Hamburger */}
           {/* Hamburger */}
           <button
             type="button"
@@ -148,20 +145,27 @@ export default function MobileNavNeoBrutalist() {
             } focus:outline-none focus:ring-0`}
           >
             <span className="sr-only">Toggle menu</span>
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-[5px]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              {/* Top bar */}
               <span
                 className={`block h-[3px] w-6 transition-all duration-300 ${
-                  open ? "bg-white rotate-45 translate-y-[6px]" : "bg-black"
+                  open
+                    ? "bg-white rotate-45 translate-y-[2px]"
+                    : "bg-black translate-y-[-8px] rotate-0"
                 }`}
               />
+              {/* Middle bar */}
               <span
                 className={`block h-[3px] w-6 transition-all duration-300 ${
-                  open ? "bg-white opacity-0" : "bg-black"
+                  open ? "opacity-0" : "bg-black opacity-100"
                 }`}
               />
+              {/* Bottom bar */}
               <span
                 className={`block h-[3px] w-6 transition-all duration-300 ${
-                  open ? "bg-white -rotate-45 -translate-y-[6px]" : "bg-black"
+                  open
+                    ? "bg-white -rotate-45 -translate-y-[2px]"
+                    : "bg-black translate-y-[8px] rotate-0"
                 }`}
               />
             </div>
@@ -191,10 +195,10 @@ export default function MobileNavNeoBrutalist() {
               }}
               className="fixed left-0 top-20 h-[calc(100vh-80px)] w-full border-l-8 border-r-8 border-b-8 border-black bg-white overflow-hidden"
             >
-              {/* Subtle grid texture */}
+              {/* Grid texture */}
               <div className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#000_1px,transparent_1px),linear-gradient(90deg,#000_1px,transparent_1px)] [background-size:22px_22px]" />
 
-              {/* Links (smaller buttons) */}
+              {/* Links */}
               <div id={menuId} className="flex-1 overflow-y-auto p-4">
                 <ul className="space-y-3">
                   {LINKS.map((l, idx) => {

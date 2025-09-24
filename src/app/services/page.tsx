@@ -12,6 +12,7 @@ import {
   Boxes,
   Accessibility,
 } from "lucide-react";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
@@ -80,7 +81,6 @@ export default function ServicesNeoBrutalistBW() {
   useEffect(() => {
     if (!listRef.current) return;
     const items = listRef.current.querySelectorAll("[data-card]");
-    // Lighter animation on mobile
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
     gsap.set(items, { y: isMobile ? 10 : 18, opacity: 0 });
     gsap.to(items, {
@@ -105,7 +105,7 @@ export default function ServicesNeoBrutalistBW() {
         />
       </div>
 
-      {/* Background (lighter on mobile, hides big blocks to prevent overflow) */}
+      {/* Background */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] [background-size:40px_100%,100%_20px] sm:[background-size:64px_100%,100%_24px]" />
         <div className="hidden sm:block absolute -top-16 -left-16 w-80 h-80 bg-white border-4 border-black shadow-[12px_12px_0_0_#000] rotate-6" />
@@ -125,23 +125,23 @@ export default function ServicesNeoBrutalistBW() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            <a
+            <Link
               className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
               href="#contact"
             >
               Book a call <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
+            </Link>
+            <Link
               className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
               href="#packages"
             >
               View packages
-            </a>
+            </Link>
           </div>
         </div>
       </header>
 
-      {/* Strapline (no infinite marquee = battery friendly) */}
+      {/* Strapline */}
       <div className="relative z-10 border-y-2 sm:border-y-4 border-black bg-white overflow-hidden">
         <div className="py-2 sm:py-3 font-extrabold text-[11px] sm:text-sm flex flex-wrap gap-x-3 gap-y-2 items-center justify-center">
           <span>TYPESCRIPT</span>•<span>REACT</span>•<span>NEXT.JS</span>•
@@ -153,7 +153,7 @@ export default function ServicesNeoBrutalistBW() {
       {/* Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pb-20 sm:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mt-8 sm:mt-10">
-          {/* Packages rail — non-sticky on mobile, sticky on lg+ */}
+          {/* Packages rail with PRICES MATCHED */}
           <aside
             id="packages"
             className="lg:col-span-4 h-fit lg:sticky lg:top-24 space-y-4 sm:space-y-6"
@@ -162,26 +162,27 @@ export default function ServicesNeoBrutalistBW() {
               <h3 className="text-lg sm:text-xl font-extrabold">Packages</h3>
               <ul className="mt-3 sm:mt-4 space-y-2 sm:space-y-3 text-[13px] sm:text-sm">
                 {[
-                  "Landing in a Week",
-                  "UI Polish & Motion Pass",
-                  "Feature Sprint (Weekly)",
-                  "Audit & Refactor",
+                  { name: "25 minutes consultation", price: "Free" },
+                  { name: "Basic WordPress site", price: "€ 500" },
+                  { name: "Complex Worpress webiste", price: "€ 1.000" },
+                  { name: "Next.js website (frontend)", price: "€ 1.200" },
+                  { name: "Next.js website (full-stack)", price: "€ 1.800" },
                 ].map((p) => (
                   <li
-                    key={p}
+                    key={p.name}
                     className="border-2 border-black p-2 sm:p-3 flex items-center justify-between"
                   >
-                    <span>{p}</span>
-                    <span className="font-black">€ —</span>
+                    <span>{p.name}</span>
+                    <span className="font-black">{p.price}</span>
                   </li>
                 ))}
               </ul>
-              <a
+              <Link
                 href="#contact"
                 className="mt-3 sm:mt-4 inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
               >
                 Get a quote
-              </a>
+              </Link>
             </div>
 
             <div className="bg-white border-2 sm:border-4 border-black shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-5">
@@ -201,7 +202,6 @@ export default function ServicesNeoBrutalistBW() {
               {services.map((s, i) => (
                 <li key={s.title} data-card>
                   <article className="relative bg-white border-2 sm:border-4 border-black p-4 sm:p-6 shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] group active:translate-x-[1px] active:-translate-y-[1px] transition">
-                    {/* Ticket notches hidden on mobile to avoid overflow */}
                     <div className="hidden sm:block absolute -left-3 top-8 w-6 h-6 bg-white border-4 border-black rounded-full" />
                     <div className="hidden sm:block absolute -right-3 top-8 w-6 h-6 bg-white border-4 border-black rounded-full" />
 
@@ -214,12 +214,12 @@ export default function ServicesNeoBrutalistBW() {
                           {String(i + 1).padStart(2, "0")} — {s.title}
                         </h3>
                       </div>
-                      <a
+                      <Link
                         className="hidden sm:inline-flex items-center gap-2 border-4 border-black bg-white px-3 py-1 text-xs font-black shadow-[4px_4px_0_0_#000] transition active:translate-x-[1px] active:-translate-y-[1px]"
                         href="#contact"
                       >
                         Start <ArrowRight className="w-3 h-3" />
-                      </a>
+                      </Link>
                     </div>
 
                     <p className="mt-3 sm:mt-4 text-[13px] sm:text-sm leading-6">
@@ -239,12 +239,12 @@ export default function ServicesNeoBrutalistBW() {
 
                     {/* Mobile action */}
                     <div className="mt-3 sm:hidden">
-                      <a
+                      <Link
                         className="inline-flex items-center gap-2 border-2 border-black bg-white px-3 py-2 text-xs font-black shadow-[4px_4px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
                         href="#contact"
                       >
                         Start <ArrowRight className="w-3 h-3" />
-                      </a>
+                      </Link>
                     </div>
                   </article>
                 </li>
@@ -267,18 +267,18 @@ export default function ServicesNeoBrutalistBW() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            <a
+            <Link
               href="mailto:andrei@example.com"
               className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-black shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
             >
               Email
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-black shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
             >
               WhatsApp
-            </a>
+            </Link>
           </div>
         </section>
       </main>

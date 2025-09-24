@@ -5,6 +5,7 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Link from "next/link";
 
 // Neo-brutalist variant: high contrast, chunky borders, visible grids, accent stamps
 
@@ -99,7 +100,10 @@ export default function PortfolioNeoBrutalistAlt() {
 
       {/* Header */}
       <header className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-10">
-        <h1 className="text-6xl md:text-7xl font-black uppercase tracking-tighter border-b-8 border-black inline-block pb-2">
+        <h1
+          className="text-6xl md:text-7xl font-black uppercase border-b-8 border-black inline-block pb-2 line tracking-wide
+"
+        >
           Portfolio
         </h1>
         <p className="mt-6 max-w-2xl text-base font-medium">
@@ -184,12 +188,12 @@ function ProjectCard({
           ))}
         </ul>
 
-        <a
+        <Link
           href={project.cta.href}
           className="mt-5 inline-flex items-center gap-2 border-4 border-black bg-black text-white px-4 py-2 text-sm font-black shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 hover:translate-x-0.5 transition"
         >
           {project.cta.label}
-        </a>
+        </Link>
       </div>
 
       {/* Brutalist stamp */}
