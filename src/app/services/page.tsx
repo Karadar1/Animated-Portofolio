@@ -17,7 +17,7 @@ gsap.registerPlugin(useGSAP);
 
 const services = [
   {
-    icon: <Code2 className="w-5 h-5" aria-hidden />,
+    icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
     title: "Frontend Engineering",
     desc: "React/Next.js interfaces engineered with TypeScript, performance budgets, and testable architecture.",
     bullets: [
@@ -28,19 +28,19 @@ const services = [
     ],
   },
   {
-    icon: <Boxes className="w-5 h-5" aria-hidden />,
-    title: "Full‑Stack Delivery",
-    desc: "MERN/PERN stacks, secure auth, APIs and deployments. Clear hand‑offs and docs included.",
+    icon: <Boxes className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
+    title: "Full-Stack Delivery",
+    desc: "MERN/PERN stacks, secure auth, APIs and deployments. Clear hand-offs and docs included.",
     bullets: ["Node/Express", "Mongo/Postgres", "CI/CD", "Docker"],
   },
   {
-    icon: <Sparkles className="w-5 h-5" aria-hidden />,
+    icon: <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
     title: "Motion & Polish",
     desc: "GSAP-powered interactions and page transitions that feel crisp and intentional.",
-    bullets: ["GSAP", "Scroll effects", "Micro‑interactions", "SVG motion"],
+    bullets: ["GSAP", "Scroll effects", "Micro-interactions", "SVG motion"],
   },
   {
-    icon: <Wrench className="w-5 h-5" aria-hidden />,
+    icon: <Wrench className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
     title: "Audits & Refactors",
     desc: "Accessibility, performance and UX audits with a prioritized, actionable roadmap.",
     bullets: [
@@ -68,9 +68,11 @@ export default function ServicesNeoBrutalistBW() {
     });
     const tl = gsap.to(c, {
       scale: 0,
-      duration: 1.4,
+      duration: 1.1,
       ease: "power2.inOut",
-      onComplete: () => gsap.set(c, { display: "none" }),
+      onComplete: () => {
+        gsap.set(c, { display: "none" });
+      },
     });
     return () => tl.kill();
   }, []);
@@ -78,14 +80,16 @@ export default function ServicesNeoBrutalistBW() {
   useEffect(() => {
     if (!listRef.current) return;
     const items = listRef.current.querySelectorAll("[data-card]");
-    gsap.set(items, { y: 18, opacity: 0 });
+    // Lighter animation on mobile
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    gsap.set(items, { y: isMobile ? 10 : 18, opacity: 0 });
     gsap.to(items, {
       y: 0,
       opacity: 1,
-      duration: 0.5,
+      duration: 0.45,
       ease: "power2.out",
-      stagger: 0.06,
-      delay: 0.15,
+      stagger: isMobile ? 0.04 : 0.06,
+      delay: 0.1,
     });
   }, []);
 
@@ -97,39 +101,38 @@ export default function ServicesNeoBrutalistBW() {
       <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
         <div
           ref={circleRef}
-          className="w-[120px] h-[120px] rounded-full bg-black"
+          className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full bg-black"
         />
       </div>
 
-      {/* Background: bold B&W texture grid + stamp border */}
+      {/* Background (lighter on mobile, hides big blocks to prevent overflow) */}
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] [background-size:64px_100%,100%_24px]" />
-        {/* Big corner blocks for framing */}
-        <div className="absolute -top-16 -left-16 w-80 h-80 bg-white border-4 border-black shadow-[12px_12px_0_0_#000] rotate-6" />
-        <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-white border-4 border-black shadow-[12px_12px_0_0_#000] -rotate-3" />
+        <div className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] [background-size:40px_100%,100%_20px] sm:[background-size:64px_100%,100%_24px]" />
+        <div className="hidden sm:block absolute -top-16 -left-16 w-80 h-80 bg-white border-4 border-black shadow-[12px_12px_0_0_#000] rotate-6" />
+        <div className="hidden sm:block absolute -bottom-16 -right-16 w-64 h-64 bg-white border-4 border-black shadow-[12px_12px_0_0_#000] -rotate-3" />
       </div>
 
       {/* Hero */}
-      <header className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 pt-28 pb-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <header className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-[calc(env(safe-area-inset-top,0)+88px)] pb-6 sm:pt-28 sm:pb-8">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
           <div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.95]">
+            <h1 className="text-[28px] sm:text-5xl md:text-7xl font-black tracking-tight leading-[1.02]">
               Services
             </h1>
-            <p className="mt-4 max-w-2xl text-sm md:text-base">
-              Clear scope. High standards. Brutal simplicity. Everything in
-              **black & white**.
+            <p className="mt-3 sm:mt-4 max-w-2xl text-[13px] sm:text-sm md:text-base">
+              Clear scope. High standards. Brutal simplicity. Everything in{" "}
+              <span className="font-bold">black & white</span>.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             <a
-              className="inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-sm font-bold shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 hover:translate-x-0.5 transition"
+              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
               href="#contact"
             >
               Book a call <ArrowRight className="w-4 h-4" />
             </a>
             <a
-              className="inline-flex items-center gap-2 border-4 border-black bg-black text-white px-4 py-2 text-sm font-bold shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 hover:translate-x-0.5 transition"
+              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
               href="#packages"
             >
               View packages
@@ -138,56 +141,55 @@ export default function ServicesNeoBrutalistBW() {
         </div>
       </header>
 
-      {/* Marquee / strapline */}
-      <div className="relative z-10 border-y-4 border-black bg-white overflow-hidden">
-        <div className="whitespace-nowrap py-3 font-extrabold text-sm flex justify-center">
-          <span className="mx-6">TYPESCRIPT</span>•
-          <span className="mx-6">REACT</span>•
-          <span className="mx-6">NEXT.JS</span>•
-          <span className="mx-6">NODE</span>•<span className="mx-6">GSAP</span>•
-          <span className="mx-6">ACCESSIBILITY</span>•
-          <span className="mx-6">PERFORMANCE</span>
+      {/* Strapline (no infinite marquee = battery friendly) */}
+      <div className="relative z-10 border-y-2 sm:border-y-4 border-black bg-white overflow-hidden">
+        <div className="py-2 sm:py-3 font-extrabold text-[11px] sm:text-sm flex flex-wrap gap-x-3 gap-y-2 items-center justify-center">
+          <span>TYPESCRIPT</span>•<span>REACT</span>•<span>NEXT.JS</span>•
+          <span>NODE</span>•<span>GSAP</span>•<span>ACCESSIBILITY</span>•
+          <span>PERFORMANCE</span>
         </div>
       </div>
 
       {/* Content */}
-      <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-10">
-          {/* Left rail: packages (different from Experience layout) */}
-          <aside id="packages" className="lg:col-span-4 h-fit sticky top-24">
-            <div className="bg-white border-4 border-black shadow-[10px_10px_0_0_#000] p-5">
-              <h3 className="text-xl font-extrabold">Packages</h3>
-              <ul className="mt-4 space-y-3 text-sm">
-                <li className="border-2 border-black p-3 flex items-center justify-between">
-                  <span>Landing in a Week</span>
-                  <span className="font-black">€ —</span>
-                </li>
-                <li className="border-2 border-black p-3 flex items-center justify-between">
-                  <span>UI Polish & Motion Pass</span>
-                  <span className="font-black">€ —</span>
-                </li>
-                <li className="border-2 border-black p-3 flex items-center justify-between">
-                  <span>Feature Sprint (Weekly)</span>
-                  <span className="font-black">€ —</span>
-                </li>
-                <li className="border-2 border-black p-3 flex items-center justify-between">
-                  <span>Audit & Refactor</span>
-                  <span className="font-black">€ —</span>
-                </li>
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pb-20 sm:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mt-8 sm:mt-10">
+          {/* Packages rail — non-sticky on mobile, sticky on lg+ */}
+          <aside
+            id="packages"
+            className="lg:col-span-4 h-fit lg:sticky lg:top-24 space-y-4 sm:space-y-6"
+          >
+            <div className="bg-white border-2 sm:border-4 border-black shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-5">
+              <h3 className="text-lg sm:text-xl font-extrabold">Packages</h3>
+              <ul className="mt-3 sm:mt-4 space-y-2 sm:space-y-3 text-[13px] sm:text-sm">
+                {[
+                  "Landing in a Week",
+                  "UI Polish & Motion Pass",
+                  "Feature Sprint (Weekly)",
+                  "Audit & Refactor",
+                ].map((p) => (
+                  <li
+                    key={p}
+                    className="border-2 border-black p-2 sm:p-3 flex items-center justify-between"
+                  >
+                    <span>{p}</span>
+                    <span className="font-black">€ —</span>
+                  </li>
+                ))}
               </ul>
               <a
                 href="#contact"
-                className="mt-4 inline-flex items-center gap-2 border-4 border-black bg-black text-white px-4 py-2 text-sm font-bold shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 hover:translate-x-0.5 transition"
+                className="mt-3 sm:mt-4 inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
               >
                 Get a quote
               </a>
             </div>
-            <div className="mt-6 bg-white border-4 border-black shadow-[10px_10px_0_0_#000] p-5">
-              <h4 className="text-sm font-extrabold uppercase tracking-wider flex items-center gap-2">
+
+            <div className="bg-white border-2 sm:border-4 border-black shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-5">
+              <h4 className="text-[12px] sm:text-sm font-extrabold uppercase tracking-wider flex items-center gap-2">
                 <Accessibility className="w-4 h-4" /> Accessibility First
               </h4>
-              <p className="mt-2 text-sm">
-                Strong focus on color contrast, keyboard flows and screen‑reader
+              <p className="mt-2 text-[13px] sm:text-sm">
+                Strong focus on color contrast, keyboard flows and screen-reader
                 semantics.
               </p>
             </div>
@@ -195,43 +197,55 @@ export default function ServicesNeoBrutalistBW() {
 
           {/* Cards list */}
           <section className="lg:col-span-8" ref={listRef}>
-            <ol className="space-y-6">
+            <ol className="space-y-4 sm:space-y-6">
               {services.map((s, i) => (
                 <li key={s.title} data-card>
-                  <article className="relative bg-white border-4 border-black p-6 shadow-[10px_10px_0_0_#000] group hover:-translate-y-1 hover:translate-x-1 transition">
-                    {/* Ticket notch accents */}
-                    <div className="absolute -left-3 top-8 w-6 h-6 bg-white border-4 border-black rounded-full" />
-                    <div className="absolute -right-3 top-8 w-6 h-6 bg-white border-4 border-black rounded-full" />
+                  <article className="relative bg-white border-2 sm:border-4 border-black p-4 sm:p-6 shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] group active:translate-x-[1px] active:-translate-y-[1px] transition">
+                    {/* Ticket notches hidden on mobile to avoid overflow */}
+                    <div className="hidden sm:block absolute -left-3 top-8 w-6 h-6 bg-white border-4 border-black rounded-full" />
+                    <div className="hidden sm:block absolute -right-3 top-8 w-6 h-6 bg-white border-4 border-black rounded-full" />
 
-                    <div className="flex items-start justify-between gap-6">
+                    <div className="flex items-start justify-between gap-4 sm:gap-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 grid place-items-center border-4 border-black bg-white shadow-[4px_4px_0_0_#000]">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 grid place-items-center border-2 sm:border-4 border-black bg-white shadow-[3px_3px_0_0_#000] sm:shadow-[4px_4px_0_0_#000]">
                           {s.icon}
                         </div>
-                        <h3 className="text-2xl font-extrabold leading-tight">
+                        <h3 className="text-lg sm:text-2xl font-extrabold leading-tight">
                           {String(i + 1).padStart(2, "0")} — {s.title}
                         </h3>
                       </div>
                       <a
-                        className="hidden sm:inline-flex items-center gap-2 border-4 border-black bg-white px-3 py-1 text-xs font-black shadow-[4px_4px_0_0_#000] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition"
+                        className="hidden sm:inline-flex items-center gap-2 border-4 border-black bg-white px-3 py-1 text-xs font-black shadow-[4px_4px_0_0_#000] transition active:translate-x-[1px] active:-translate-y-[1px]"
                         href="#contact"
                       >
                         Start <ArrowRight className="w-3 h-3" />
                       </a>
                     </div>
 
-                    <p className="mt-4 text-sm leading-6">{s.desc}</p>
+                    <p className="mt-3 sm:mt-4 text-[13px] sm:text-sm leading-6">
+                      {s.desc}
+                    </p>
 
-                    <ul className="mt-4 flex flex-wrap gap-2">
+                    <ul className="mt-3 sm:mt-4 flex flex-wrap gap-2">
                       {s.bullets.map((b) => (
                         <li
                           key={b}
-                          className="text-xs font-bold px-2 py-1 border-2 border-black bg-white shadow-[4px_4px_0_0_#000]"
+                          className="text-[11px] sm:text-xs font-bold px-2 py-1 border-2 border-black bg-white shadow-[3px_3px_0_0_#000] sm:shadow-[4px_4px_0_0_#000]"
                         >
                           {b}
                         </li>
                       ))}
                     </ul>
+
+                    {/* Mobile action */}
+                    <div className="mt-3 sm:hidden">
+                      <a
+                        className="inline-flex items-center gap-2 border-2 border-black bg-white px-3 py-2 text-xs font-black shadow-[4px_4px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
+                        href="#contact"
+                      >
+                        Start <ArrowRight className="w-3 h-3" />
+                      </a>
+                    </div>
                   </article>
                 </li>
               ))}
@@ -242,24 +256,26 @@ export default function ServicesNeoBrutalistBW() {
         {/* CTA banner */}
         <section
           id="contact"
-          className="mt-12 border-4 border-black bg-white shadow-[10px_10px_0_0_#000] p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+          className="mt-10 sm:mt-12 border-2 sm:border-4 border-black bg-white shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4"
         >
           <div>
-            <h4 className="text-xl font-extrabold">Have a project in mind?</h4>
-            <p className="mt-1 text-sm">
+            <h4 className="text-lg sm:text-xl font-extrabold">
+              Have a project in mind?
+            </h4>
+            <p className="mt-1 text-[13px] sm:text-sm">
               Let’s scope it quickly and ship in black & white clarity.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             <a
               href="mailto:andrei@example.com"
-              className="inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-sm font-black shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 hover:translate-x-0.5 transition"
+              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-black shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
             >
               Email
             </a>
             <a
               href="#"
-              className="inline-flex items-center gap-2 border-4 border-black bg-black text-white px-4 py-2 text-sm font-black shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 hover:translate-x-0.5 transition"
+              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-black shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
             >
               WhatsApp
             </a>
@@ -267,22 +283,14 @@ export default function ServicesNeoBrutalistBW() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t-4 border-black bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-8 text-xs flex items-center justify-between">
-          <span>© {new Date().getFullYear()} Andrei‑Tudor Lazău</span>
-          <span>Neo‑Brutalist Services</span>
+      <footer className="relative z-10 border-t-2 sm:border-t-4 border-black bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-6 sm:py-8 text-[11px] sm:text-xs flex items-center justify-between">
+          <span>© {new Date().getFullYear()} Andrei-Tudor Lazău</span>
+          <span>Neo-Brutalist Services</span>
         </div>
       </footer>
 
       <style jsx>{`
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
         :global(a:focus-visible),
         :global(button:focus-visible) {
           outline: 3px solid #000;

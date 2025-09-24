@@ -3,18 +3,19 @@
 import React, { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRouter } from "next/navigation"; // for App Router (Next 13+ with /app)
+import { useRouter } from "next/navigation";
 
-const FirstIntro = () => {
+const FirstIntro: React.FC = () => {
   const navigation = useRouter();
-  const introRef = useRef(null);
-  const introRef2 = useRef(null);
-  const roundRef = useRef(null);
 
-  const linesRef = useRef([]);
-  linesRef.current = [];
+  const introRef = useRef<HTMLDivElement | null>(null);
+  const introRef2 = useRef<HTMLDivElement | null>(null);
+  const roundRef = useRef<HTMLDivElement | null>(null);
 
-  const addToRefs = (el) => {
+  // Keep the array stable; don't reset it during render
+  const linesRef = useRef<HTMLDivElement[]>([]);
+
+  const addToRefs = (el: HTMLDivElement | null) => {
     if (el && !linesRef.current.includes(el)) {
       linesRef.current.push(el);
     }
@@ -22,6 +23,7 @@ const FirstIntro = () => {
 
   useGSAP(() => {
     const lineHeight = 120;
+
     const handleSecondAnimation = () => {
       navigation.push("/home");
     };
@@ -42,12 +44,14 @@ const FirstIntro = () => {
       onComplete: handleFirstAnimation,
     });
 
+    // First headline in/out
     tl.fromTo(introRef.current, { y: -100 }, { y: 0, duration: 1 }).to(
       introRef.current,
       { y: 100, duration: 1, ease: "power3.in" },
       "+=0.5"
     );
 
+    // Waterfall lines
     const waterfallTL = gsap.timeline();
     linesRef.current.forEach((el, i) => {
       const targetY = i * lineHeight;
@@ -63,6 +67,7 @@ const FirstIntro = () => {
 
     tl.add(waterfallTL, "-=0.05");
 
+    // Second screen + circle wipe
     secondTl
       .fromTo(
         introRef2.current,
@@ -84,11 +89,16 @@ const FirstIntro = () => {
           yPercent: -50,
         },
         {
-          scale: 20, // large enough to cover full screen
+          scale: 20,
           duration: 1.5,
           ease: "power2.inOut",
         }
       );
+
+    return () => {
+      tl.kill();
+      secondTl.kill();
+    };
   }, []);
 
   return (
@@ -98,7 +108,7 @@ const FirstIntro = () => {
         className="text-[64px] font-semibold text-center mb-12 text-black whitespace-nowrap"
         style={{ fontFamily: "'Orbitron', sans-serif" }}
       >
-        Hi, Im Lazau Andrei-Tudor
+        Hi, I’m Lazău Andrei-Tudor
       </div>
 
       <div className="relative h-[800px]">
@@ -109,10 +119,11 @@ const FirstIntro = () => {
             className="absolute left-1/2 -translate-x-1/2 text-[120px] font-bold text-black whitespace-nowrap tracking-wide"
             style={{ fontFamily: "'Orbitron', sans-serif" }}
           >
-            Lazau Andrei-Tudor
+            Lazău Andrei-Tudor
           </div>
         ))}
       </div>
+
       <div
         ref={introRef2}
         className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 text-[64px] font-semibold text-center mb-12 text-black whitespace-nowrap"
@@ -120,7 +131,8 @@ const FirstIntro = () => {
       >
         Welcome to my website
       </div>
-      <div ref={roundRef} className="bg-black rounded-full w-[100px]"></div>
+
+      <div ref={roundRef} className="bg-black rounded-full w-[100px]" />
     </div>
   );
 };

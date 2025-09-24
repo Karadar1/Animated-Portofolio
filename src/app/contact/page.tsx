@@ -38,7 +38,9 @@ export default function ContactNeoBrutalistBW() {
       scale: 0,
       duration: 1.2,
       ease: "power2.inOut",
-      onComplete: () => gsap.set(c, { display: "none" }),
+      onComplete: () => {
+        gsap.set(c, { display: "none" });
+      },
     });
     return () => tl.kill();
   }, []);

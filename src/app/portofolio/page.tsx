@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "@/components/Navbar";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -61,7 +61,9 @@ export default function PortfolioNeoBrutalistAlt() {
       scale: 0,
       duration: 1.2,
       ease: "power2.inOut",
-      onComplete: () => gsap.set(c, { display: "none" }),
+      onComplete: () => {
+        gsap.set(c, { display: "none" });
+      },
     });
     return () => tl.kill();
   }, []);

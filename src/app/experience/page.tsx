@@ -102,7 +102,9 @@ export default function ExperiencePage() {
       scale: 0,
       duration: 1.5,
       ease: "power2.inOut",
-      onComplete: () => gsap.set(c, { display: "none" }),
+      onComplete: () => {
+        gsap.set(c, { display: "none" });
+      },
     });
     return () => tl.kill();
   }, []);
