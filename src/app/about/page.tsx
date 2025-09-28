@@ -42,7 +42,7 @@ export default function AboutScrollCarousel() {
     return () => tl.kill();
   }, []);
 
-  // Scroll logic: desktop alt L/R; mobile bottom-up cover
+  // Scroll logic: desktop alt L/R; mobile bottom-up cover (+ taller last slide)
   useGSAP(() => {
     const stage = stageRef.current!;
     const slides = slidesRef.current.filter(Boolean) as HTMLDivElement[];
@@ -90,8 +90,11 @@ export default function AboutScrollCarousel() {
       return () => tl.kill();
     });
 
-    // MOBILE: each next slide rises from bottom and covers previous
+    // MOBILE: each next slide rises from bottom & covers previous
     mm.add("(max-width: 767px)", () => {
+      // A bit taller so the last slide holds the pin longer
+      gsap.set(stage, { height: "120svh", overflow: "hidden" });
+
       slides.forEach((el, i) => {
         gsap.set(el, {
           position: "absolute",
@@ -99,7 +102,7 @@ export default function AboutScrollCarousel() {
           yPercent: i === 0 ? 0 : 100, // first is visible; others below
           xPercent: 0,
           willChange: "transform",
-          zIndex: 100 + i, // later slides cover earlier ones
+          zIndex: i === slides.length - 1 ? 999 : 100 + i, // last slide always on top
         });
       });
 
@@ -110,7 +113,7 @@ export default function AboutScrollCarousel() {
         scrollTrigger: {
           trigger: stage,
           start: "top top",
-          end: `+=${transitions * 100}%`,
+          end: `+=${transitions * 100 + 10}%`, // small buffer past last slide
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -118,7 +121,7 @@ export default function AboutScrollCarousel() {
           ...(transitions > 0
             ? {
                 snap: {
-                  snapTo: 1 / transitions,
+                  snapTo: 1 / (transitions + 0.1),
                   duration: 0.2,
                   ease: "power1.inOut",
                 },
@@ -128,9 +131,11 @@ export default function AboutScrollCarousel() {
       });
 
       for (let i = 0; i < transitions; i++) {
-        // bring next slide up from bottom
-        tl.to(slides[i + 1], { yPercent: 0 });
+        tl.to(slides[i + 1], { yPercent: 0 }); // bring next slide up
       }
+
+      // Tiny buffer so pin doesn't release right on arrival
+      tl.to({}, { duration: 0.15 });
 
       return () => tl.kill();
     });
@@ -180,8 +185,8 @@ export default function AboutScrollCarousel() {
       </div>
 
       {/* Stage */}
-      <section ref={stageRef} className="relative h-[100vh]">
-        {/* Slides: absolute stack for both breakpoints (mobile needs cover) */}
+      <section ref={stageRef} className="relative h-[100vh] md:h-[100vh]">
+        {/* Slides: absolute stack for both breakpoints */}
         <div className="absolute inset-0">
           {[0, 1, 2, 3].map((idx) => (
             <div
@@ -202,7 +207,14 @@ export default function AboutScrollCarousel() {
                       : "md:col-start-7 md:col-span-5"
                   }`}
                 >
-                  <h2 className="text-4xl mt-30 md:text-6xl font-black leading-[0.98]">
+                  {/* Slightly smaller title on the Skills slide to help it fit */}
+                  <h2
+                    className={`font-black leading-[0.98] ${
+                      idx === 1
+                        ? "text-[9.5vw] sm:text-4xl md:text-6xl"
+                        : "text-4xl md:text-6xl"
+                    }`}
+                  >
                     {idx === 0 && "About Me"}
                     {idx === 1 && "Skills & Tools"}
                     {idx === 2 && "Achievements"}
@@ -233,6 +245,8 @@ export default function AboutScrollCarousel() {
                           "Next.js",
                           "GSAP",
                           "Node",
+                          "Express",
+                          "MongoDB",
                           "Postgres",
                         ].map((t) => (
                           <li
@@ -247,7 +261,8 @@ export default function AboutScrollCarousel() {
                   )}
 
                   {idx === 1 && (
-                    <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
+                    // Compact, two-column grid on mobile so it fits in view
+                    <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
                       {[
                         {
                           h: "Frontend",
@@ -283,12 +298,12 @@ export default function AboutScrollCarousel() {
                       ].map((card) => (
                         <div
                           key={card.h}
-                          className="border-2 md:border-4 border-black bg-white p-4 md:p-5 shadow-[6px_6px_0_0_#000] md:shadow-[8px_8px_0_0_#000]"
+                          className="border-2 md:border-4 border-black bg-white p-3 md:p-5 shadow-[6px_6px_0_0_#000] md:shadow-[8px_8px_0_0_#000]"
                         >
-                          <h3 className="text-base md:text-lg font-extrabold">
+                          <h3 className="text-[12px] md:text-lg font-extrabold leading-tight">
                             {card.h}
                           </h3>
-                          <ul className="mt-2 space-y-1 text-sm">
+                          <ul className="mt-1 md:mt-2 space-y-0.5 md:space-y-1 text-[11px] md:text-sm leading-tight">
                             {card.items.map((it) => (
                               <li key={it}>• {it}</li>
                             ))}
@@ -337,6 +352,8 @@ export default function AboutScrollCarousel() {
                           clarity, performance, and motion.
                         </p>
                       </div>
+                      {/* Extra bottom space inside the last slide on mobile */}
+                      <div className="h-12 md:h-0" />
                     </div>
                   )}
                 </div>
@@ -347,7 +364,7 @@ export default function AboutScrollCarousel() {
       </section>
 
       {/* Spacer to ease scroll exit from pin */}
-      <div className="h-[10svh] md:h-[20vh]" />
+      <div className="h-[14svh] md:h-[20vh]" />
 
       <style jsx>{`
         html,

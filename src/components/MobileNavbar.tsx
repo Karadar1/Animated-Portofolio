@@ -258,29 +258,12 @@ export default function MobileNavNeoBrutalist() {
                   animate={{ y: 0, opacity: 1, transition: { delay: 0.55 } }}
                 >
                   <div className="border-4 border-black bg-white px-3 py-2 text-[10px] font-black uppercase shadow-[5px_5px_0_0_#000]">
-                    Bucharest, RO
+                    Timisoara, RO
                   </div>
                   <div className="border-4 border-black bg-white px-3 py-2 text-[10px] font-black uppercase shadow-[5px_5px_0_0_#000]">
                     Available • 2025
                   </div>
                 </motion.div>
-              </div>
-
-              {/* Footer CTA */}
-              <div className="border-t-8 border-black bg-black p-3">
-                <button
-                  type="button"
-                  onClick={() => navigateWithTransition("/contact")}
-                  disabled={isTransitioning}
-                  className="group w-full border-4 border-white bg-white text-black px-6 py-3 text-[12px] font-black uppercase tracking-[0.16em] transition-all hover:bg-black hover:text-white focus:outline-none shadow-[0_0_0_4px_#fff]"
-                >
-                  <div className="flex items-center justify-between">
-                    <span>Get in touch</span>
-                    <span className="text-base transition-transform group-hover:translate-x-2">
-                      →
-                    </span>
-                  </div>
-                </button>
               </div>
             </motion.div>
           </motion.div>

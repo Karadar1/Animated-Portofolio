@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRouter, usePathname } from "next/navigation";
+import MobileNavNeoBrutalist from "./MobileNavbar";
 
 const Navbar = () => {
   const router = useRouter();
@@ -79,6 +80,8 @@ const Navbar = () => {
 
   return (
     <>
+      <MobileNavNeoBrutalist />
+
       <ul
         onMouseLeave={() => {
           setPosition((pv) => ({

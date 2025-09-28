@@ -97,8 +97,7 @@ export default function ContactNeoBrutalistBW() {
               Contact
             </h1>
             <p className="mt-4 max-w-2xl text-sm md:text-base">
-              Let’s scope your project in black & white. I’ll reply within 24
-              hours.
+              Let’s scope your project in black & white.
             </p>
           </div>
           <div className="flex gap-2">
@@ -213,9 +212,6 @@ export default function ContactNeoBrutalistBW() {
                 >
                   Send <Send className="w-4 h-4" />
                 </button>
-                <div className="text-xs text-black/70 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4" /> I’ll respond within 24h.
-                </div>
               </div>
             </form>
           </section>
@@ -226,16 +222,16 @@ export default function ContactNeoBrutalistBW() {
               <h3 className="text-xl font-extrabold">Direct</h3>
               <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Link
-                  href="mailto:andrei@example.com"
+                  href="mailto:lazau.tudor@yahpp.com"
                   className="border-2 border-black p-3 flex items-center gap-2 hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
-                  <Mail className="w-4 h-4" /> andrei@example.com
+                  <Mail className="w-4 h-4" /> lazau.tudor@yahoo.com
                 </Link>
                 <Link
-                  href="tel:+40123456789"
+                  href="tel:+40773712357"
                   className="border-2 border-black p-3 flex items-center gap-2 hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
-                  <Phone className="w-4 h-4" /> +40 123 456 789
+                  <Phone className="w-4 h-4" /> +40 773 712 357
                 </Link>
               </div>
               <button
@@ -250,13 +246,13 @@ export default function ContactNeoBrutalistBW() {
               <h3 className="text-xl font-extrabold">Elsewhere</h3>
               <div className="mt-3 grid grid-cols-2 gap-3">
                 <Link
-                  href="#"
+                  href="https://github.com/Karadar1"
                   className="border-2 border-black p-3 flex items-center justify-center gap-2 font-bold hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
                   <Github className="w-4 h-4" /> GitHub
                 </Link>
                 <Link
-                  href="#"
+                  href="www.linkedin.com/in/tudor-lazau-94065220b"
                   className="border-2 border-black p-3 flex items-center justify-center gap-2 font-bold hover:-translate-y-0.5 hover:translate-x-0.5 transition"
                 >
                   <Linkedin className="w-4 h-4" /> LinkedIn
