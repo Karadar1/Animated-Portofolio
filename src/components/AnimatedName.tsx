@@ -33,7 +33,7 @@ const FirstIntro: React.FC = () => {
     const lineHeight = getLineHeight();
 
     const handleSecondAnimation = () => {
-      navigation.push("/home");
+      navigation.push("/acasa");
     };
 
     const secondTl = gsap.timeline({

@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -176,6 +177,12 @@ export default function AboutScrollCarousel() {
     <div className="min-h-screen bg-white text-black relative">
       <Navbar />
 
+      {/* SR-only H1 pentru SEO (nu afectează layout-ul/animatiile) */}
+      <h1 className="sr-only">
+        Despre Andrei-Tudor Lazău – experiență, abilități și proiecte în
+        React/Next.js, TypeScript, GSAP
+      </h1>
+
       {/* Transition overlay */}
       <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
         <div
@@ -192,6 +199,15 @@ export default function AboutScrollCarousel() {
             <div
               key={idx}
               ref={setSlideRef(idx)}
+              id={
+                idx === 0
+                  ? "despre"
+                  : idx === 1
+                  ? "abilitati"
+                  : idx === 2
+                  ? "realizari"
+                  : "acum-urmeaza"
+              }
               className="absolute inset-0 flex items-center"
               style={{ zIndex: 50 - idx }}
             >
@@ -215,10 +231,10 @@ export default function AboutScrollCarousel() {
                         : "text-4xl md:text-6xl"
                     }`}
                   >
-                    {idx === 0 && "About Me"}
+                    {idx === 0 && "Despre mine"}
                     {idx === 1 && "Skills & Tools"}
-                    {idx === 2 && "Achievements"}
-                    {idx === 3 && "Now / Next"}
+                    {idx === 2 && "Reusite"}
+                    {idx === 3 && "Acum / Pe viitor"}
                   </h2>
                 </div>
 
@@ -232,11 +248,11 @@ export default function AboutScrollCarousel() {
                   {idx === 0 && (
                     <div className="border-2 md:border-4 border-black bg-white p-4 md:p-6 shadow-[6px_6px_0_0_#000] md:shadow-[10px_10px_0_0_#000]">
                       <p className="text-sm md:text-base leading-7">
-                        I’m Andrei-Tudor Lazău — a frontend/full-stack developer
-                        focused on clean interfaces, performance, and motion. I
-                        build with React/Next.js, TypeScript, and GSAP, and I
-                        love turning complex flows into simple, crisp
-                        experiences.
+                        Sunt Andrei-Tudor Lazău, dezvoltator
+                        frontend/full-stack. Creez interfețe curate și rapide,
+                        cu atenție la performanță și animații. Lucrez cu
+                        React/Next.js, TypeScript și GSAP și transform fluxuri
+                        complexe în experiențe simple și clare.
                       </p>
                       <ul className="mt-4 flex flex-wrap gap-2">
                         {[
@@ -336,20 +352,19 @@ export default function AboutScrollCarousel() {
                     <div className="grid gap-3 md:gap-4">
                       <div className="border-2 md:border-4 border-black bg-white p-4 md:p-6 shadow-[6px_6px_0_0_#000] md:shadow-[10px_10px_0_0_#000]">
                         <h3 className="text-base md:text-lg font-extrabold">
-                          Currently
+                          Actual
                         </h3>
                         <p className="mt-2 text-sm">
-                          Freelance/contract work focused on frontend polish,
-                          animations, and feature delivery.
+                          Fac freelance, dar doresc sa lucrez si cu contract de
+                          munca daca se ivesc posibilitati
                         </p>
                       </div>
                       <div className="border-2 md:border-4 border-black bg-white p-4 md:p-6 shadow-[6px_6px_0_0_#000] md:shadow-[10px_10px_0_0_#000]">
                         <h3 className="text-base md:text-lg font-extrabold">
-                          Next
+                          Pe viitor
                         </h3>
                         <p className="mt-2 text-sm">
-                          Open to collaborations on product teams that value
-                          clarity, performance, and motion.
+                          Doresc sa intru in domeniul WEB3.0
                         </p>
                       </div>
                       {/* Extra bottom space inside the last slide on mobile */}

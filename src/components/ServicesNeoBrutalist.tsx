@@ -2,8 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import Link from "next/link";
 import {
   ArrowRight,
   Wrench,
@@ -12,52 +11,61 @@ import {
   Boxes,
   Accessibility,
 } from "lucide-react";
-import Link from "next/link";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
-gsap.registerPlugin(useGSAP);
-
+// --- Config servicii (linkuri interne spre subpagini/portofoliu) ---
 const services = [
   {
     icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
-    title: "Frontend Engineering",
-    desc: "React/Next.js interfaces engineered with TypeScript, performance budgets, and testable architecture.",
+    title: "Dezvoltare Frontend",
+    desc: "Interfețe React/Next.js cu TypeScript, bugete de performanță și arhitectură testabilă.",
     bullets: [
       "Next.js + TypeScript",
       "Design systems",
       "SSR/SSG",
       "State & data fetching",
     ],
+    href: "/services/dezvoltare-web",
   },
   {
     icon: <Boxes className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
-    title: "Full-Stack Delivery",
-    desc: "MERN/PERN stacks, secure auth, APIs and deployments. Clear hand-offs and docs included.",
+    title: "Livrare Full-Stack",
+    desc: "Stack-uri MERN/PERN, autentificare sigură, API-uri și deploy. Predare clară și documentație.",
     bullets: ["Node/Express", "Mongo/Postgres", "CI/CD", "Docker"],
+    href: "/services/dezvoltare-web",
   },
   {
     icon: <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
-    title: "Motion & Polish",
-    desc: "GSAP-powered interactions and page transitions that feel crisp and intentional.",
-    bullets: ["GSAP", "Scroll effects", "Micro-interactions", "SVG motion"],
+    title: "Animații & Micro-interacțiuni",
+    desc: "Interacțiuni cu GSAP și tranziții între pagini care se simt precise și intenționate.",
+    bullets: ["GSAP", "Efecte la scroll", "Micro-interacțiuni", "Animații SVG"],
+    href: "/portfolio",
   },
   {
     icon: <Wrench className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden />,
-    title: "Audits & Refactors",
-    desc: "Accessibility, performance and UX audits with a prioritized, actionable roadmap.",
+    title: "Audituri & Refactor",
+    desc: "Audit de accesibilitate, performanță și UX cu un plan de acțiuni prioritar.",
     bullets: [
       "Lighthouse perf",
-      "A11y checks (WCAG)",
-      "Refactor plans",
-      "DX improvements",
+      "Verificări A11y (WCAG)",
+      "Plan de refactor",
+      "Îmbunătățiri DX",
     ],
+    href: "/services/optimizare-performanta",
   },
 ];
 
-export default function ServicesNeoBrutalistBW() {
+export default function ServicesNeoBrutalist() {
   const circleRef = useRef<HTMLDivElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
 
-  // Page transition overlay (covers navbar)
+  // Respectă preferința de mișcare redusă
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+  // Overlay de tranziție (GSAP încărcat dinamic doar pe client)
   useGSAP(() => {
     const c = circleRef.current;
     if (!c) return;
@@ -69,7 +77,7 @@ export default function ServicesNeoBrutalistBW() {
     });
     const tl = gsap.to(c, {
       scale: 0,
-      duration: 1.1,
+      duration: 1.2,
       ease: "power2.inOut",
       onComplete: () => {
         gsap.set(c, { display: "none" });
@@ -78,20 +86,7 @@ export default function ServicesNeoBrutalistBW() {
     return () => tl.kill();
   }, []);
 
-  useEffect(() => {
-    if (!listRef.current) return;
-    const items = listRef.current.querySelectorAll("[data-card]");
-    const isMobile = window.matchMedia("(max-width: 640px)").matches;
-    gsap.set(items, { y: isMobile ? 10 : 18, opacity: 0 });
-    gsap.to(items, {
-      y: 0,
-      opacity: 1,
-      duration: 0.45,
-      ease: "power2.out",
-      stagger: isMobile ? 0.04 : 0.06,
-      delay: 0.1,
-    });
-  }, []);
+  // Apariția cardurilor (tot cu GSAP, încărcat la nevoie)
 
   return (
     <div className="min-h-screen bg-white text-black relative overflow-hidden">
@@ -101,11 +96,11 @@ export default function ServicesNeoBrutalistBW() {
       <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
         <div
           ref={circleRef}
-          className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full bg-black"
+          className="w-[120px] h-[120px] rounded-full bg-black"
         />
       </div>
 
-      {/* Background */}
+      {/* Fundal decorativ */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] [background-size:40px_100%,100%_20px] sm:[background-size:64px_100%,100%_24px]" />
         <div className="hidden sm:block absolute -top-16 -left-16 w-80 h-80 bg-white border-4 border-black shadow-[12px_12px_0_0_#000] rotate-6" />
@@ -113,60 +108,53 @@ export default function ServicesNeoBrutalistBW() {
       </div>
 
       {/* Hero */}
-      <header className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-[calc(env(safe-area-inset-top,0)+88px)] pb-6 sm:pt-28 sm:pb-8">
+      <header className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pb-6 sm:pt-5 sm:pb-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
           <div>
             <h1 className="text-[28px] sm:text-5xl md:text-7xl font-black tracking-tight leading-[1.02]">
-              Services
+              Servicii
             </h1>
             <p className="mt-3 sm:mt-4 max-w-2xl text-[13px] sm:text-sm md:text-base">
-              Clear scope. High standards. Brutal simplicity. Everything in{" "}
-              <span className="font-bold">black & white</span>.
+              Scop clar. Standarde înalte. Simplitate.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
             <Link
               className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
-              href="#contact"
+              href="/contact"
             >
-              Book a call <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
-              href="#packages"
-            >
-              View packages
+              Programează un call <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </header>
 
-      {/* Strapline */}
+      {/* Strapline tech */}
       <div className="relative z-10 border-y-2 sm:border-y-4 border-black bg-white overflow-hidden">
         <div className="py-2 sm:py-3 font-extrabold text-[11px] sm:text-sm flex flex-wrap gap-x-3 gap-y-2 items-center justify-center">
           <span>TYPESCRIPT</span>•<span>REACT</span>•<span>NEXT.JS</span>•
-          <span>NODE</span>•<span>GSAP</span>•<span>ACCESSIBILITY</span>•
-          <span>PERFORMANCE</span>
+          <span>NODE</span>•<span>GSAP</span>•<span>ACCESIBILITATE</span>•
+          <span>PERFORMANȚĂ</span>
         </div>
       </div>
 
-      {/* Content */}
+      {/* Conținut principal */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pb-20 sm:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mt-8 sm:mt-10">
-          {/* Packages rail with PRICES MATCHED */}
+          {/* Pachete (rail) */}
           <aside
-            id="packages"
+            id="pachete"
             className="lg:col-span-4 h-fit lg:sticky lg:top-24 space-y-4 sm:space-y-6"
           >
             <div className="bg-white border-2 sm:border-4 border-black shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-5">
-              <h3 className="text-lg sm:text-xl font-extrabold">Packages</h3>
+              <h1 className="text-lg sm:text-xl font-extrabold">Pachete</h1>
               <ul className="mt-3 sm:mt-4 space-y-2 sm:space-y-3 text-[13px] sm:text-sm">
                 {[
-                  { name: "25 minutes consultation", price: "Free" },
-                  { name: "Basic WordPress site", price: "€ 500" },
-                  { name: "Complex Worpress webiste", price: "€ 1.000" },
-                  { name: "Next.js website (frontend)", price: "€ 1.200" },
-                  { name: "Next.js website (full-stack)", price: "€ 1.800" },
+                  { name: "Consultație 25 de minute", price: "Gratuit" },
+                  { name: "Site WordPress de bază", price: "€ 500" },
+                  { name: "Website WordPress complex", price: "€ 1.000" },
+                  { name: "Website Next.js (frontend)", price: "€ 1.200" },
+                  { name: "Website Next.js (full-stack)", price: "€ 1.800" },
                 ].map((p) => (
                   <li
                     key={p.name}
@@ -178,25 +166,26 @@ export default function ServicesNeoBrutalistBW() {
                 ))}
               </ul>
               <Link
-                href="#contact"
-                className="mt-3 sm:mt-4 inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
+                href="/contact"
+                className="mt-3 sm:mt-4 inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px] transition"
               >
-                Get a quote
+                Cere ofertă
               </Link>
             </div>
 
             <div className="bg-white border-2 sm:border-4 border-black shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-5">
-              <h4 className="text-[12px] sm:text-sm font-extrabold uppercase tracking-wider flex items-center gap-2">
-                <Accessibility className="w-4 h-4" /> Accessibility First
-              </h4>
+              <h3 className="text-[12px] sm:text-sm font-extrabold uppercase tracking-wider flex items-center gap-2">
+                <Accessibility className="w-4 h-4" /> Accesibilitate pe primul
+                loc
+              </h3>
               <p className="mt-2 text-[13px] sm:text-sm">
-                Strong focus on color contrast, keyboard flows and screen-reader
-                semantics.
+                Accent pe contrast, navigare din tastatură și semantică pentru
+                cititoare de ecran.
               </p>
             </div>
           </aside>
 
-          {/* Cards list */}
+          {/* Lista de servicii */}
           <section className="lg:col-span-8" ref={listRef}>
             <ol className="space-y-4 sm:space-y-6">
               {services.map((s, i) => (
@@ -210,16 +199,10 @@ export default function ServicesNeoBrutalistBW() {
                         <div className="w-9 h-9 sm:w-10 sm:h-10 grid place-items-center border-2 sm:border-4 border-black bg-white shadow-[3px_3px_0_0_#000] sm:shadow-[4px_4px_0_0_#000]">
                           {s.icon}
                         </div>
-                        <h3 className="text-lg sm:text-2xl font-extrabold leading-tight">
+                        <h2 className="text-lg sm:text-2xl font-extrabold leading-tight">
                           {String(i + 1).padStart(2, "0")} — {s.title}
-                        </h3>
+                        </h2>
                       </div>
-                      <Link
-                        className="hidden sm:inline-flex items-center gap-2 border-4 border-black bg-white px-3 py-1 text-xs font-black shadow-[4px_4px_0_0_#000] transition active:translate-x-[1px] active:-translate-y-[1px]"
-                        href="#contact"
-                      >
-                        Start <ArrowRight className="w-3 h-3" />
-                      </Link>
                     </div>
 
                     <p className="mt-3 sm:mt-4 text-[13px] sm:text-sm leading-6">
@@ -237,13 +220,13 @@ export default function ServicesNeoBrutalistBW() {
                       ))}
                     </ul>
 
-                    {/* Mobile action */}
+                    {/* Acțiune mobil */}
                     <div className="mt-3 sm:hidden">
                       <Link
                         className="inline-flex items-center gap-2 border-2 border-black bg-white px-3 py-2 text-xs font-black shadow-[4px_4px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
-                        href="#contact"
+                        href={s.href}
                       >
-                        Start <ArrowRight className="w-3 h-3" />
+                        Află mai mult <ArrowRight className="w-3 h-3" />
                       </Link>
                     </div>
                   </article>
@@ -253,43 +236,67 @@ export default function ServicesNeoBrutalistBW() {
           </section>
         </div>
 
-        {/* CTA banner */}
+        {/* FAQ scurt – util pentru SEO; stil minimalist */}
+        <section className="mt-10 sm:mt-12 border-2 sm:border-4 border-black bg-white shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-extrabold">
+            Întrebări frecvente
+          </h2>
+          <div className="mt-3 sm:mt-4 space-y-3 sm:space-y-4 text-[13px] sm:text-sm">
+            <details>
+              <summary className="font-bold">
+                Cât durează realizarea unui site Next.js?
+              </summary>
+              <p className="mt-1">
+                Pentru un site mic, între 1–3 săptămâni în funcție de conținut
+                și funcționalități.
+              </p>
+            </details>
+            <details>
+              <summary className="font-bold">
+                Puteți optimiza un site existent?
+              </summary>
+              <p className="mt-1">
+                Da. Fac un audit (performanță, accesibilitate, SEO tehnic) și
+                livrez un plan clar de implementare.
+              </p>
+            </details>
+            <details>
+              <summary className="font-bold">
+                Cum lucrăm la conținut și SEO?
+              </summary>
+              <p className="mt-1">
+                Mapăm paginile pe intenții de căutare, scriem titluri/meta
+                corecte și adăugăm schema.org (FAQ, Breadcrumbs).
+              </p>
+            </details>
+          </div>
+        </section>
+
+        {/* CTA contact */}
         <section
           id="contact"
           className="mt-10 sm:mt-12 border-2 sm:border-4 border-black bg-white shadow-[6px_6px_0_0_#000] sm:shadow-[10px_10px_0_0_#000] p-4 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4"
         >
           <div>
-            <h4 className="text-lg sm:text-xl font-extrabold">
-              Have a project in mind?
-            </h4>
+            <h3 className="text-lg sm:text-xl font-extrabold">
+              Ai un proiect în minte?
+            </h3>
             <p className="mt-1 text-[13px] sm:text-sm">
-              Let’s scope it quickly and ship in black & white clarity.
+              Stabilim rapid scopul și livrăm cu claritate alb & negru.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
             <Link
-              href="mailto:andrei@example.com"
-              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-black shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
+              href="mailto:lazau.tudor@yahoo.com"
+              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-black shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
             >
               Email
-            </Link>
-            <Link
-              href="#"
-              className="inline-flex items-center gap-2 border-2 sm:border-4 border-black bg-black text-white px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm font-black shadow-[4px_4px_0_0_#000] sm:shadow-[6px_6px_0_0_#000] active:translate-x-[1px] active:-translate-y-[1px]"
-            >
-              WhatsApp
             </Link>
           </div>
         </section>
       </main>
 
-      <footer className="relative z-10 border-t-2 sm:border-t-4 border-black bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-6 sm:py-8 text-[11px] sm:text-xs flex items-center justify-between">
-          <span>© {new Date().getFullYear()} Andrei-Tudor Lazău</span>
-          <span>Neo-Brutalist Services</span>
-        </div>
-      </footer>
-
+      {/* A11y: focus vizibil + reduce motion */}
       <style jsx>{`
         :global(a:focus-visible),
         :global(button:focus-visible) {

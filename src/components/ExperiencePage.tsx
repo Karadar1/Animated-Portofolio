@@ -2,12 +2,11 @@
 
 import Navbar from "@/components/Navbar";
 import React, { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP);
-
-// --- Shared UI bits ---
+// --- UI bits ---
 const Pill = ({ children }: { children: React.ReactNode }) => (
   <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white text-black border-2 border-black shadow-[4px_4px_0_0_#000]">
     {children}
@@ -20,24 +19,24 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
   </span>
 );
 
-// --- Experience data ---
+// --- Date experiență (RO) ---
 const experience = [
   {
     title: "3Pillar AC Labs",
-    position: "Full-Stack Developer",
-    time: "2024",
-    location: "Programme",
+    position: "Dezvoltator Full-Stack",
+    time: "2025",
+    location: "Program",
     description:
-      "Developed and deployed a full-stack web app using Flask (backend) and React (frontend). Containerized with Docker, deployed on AWS, and managed with Git.",
+      "Am dezvoltat și lansat o aplicație full-stack cu Flask (backend) și React (frontend). Containerizare cu Docker, deploy pe AWS, versionare cu Git.",
     tech: ["React", "TypeScript", "Python", "Flask", "MySQL", "Docker", "AWS"],
   },
   {
     title: "IBM Summer Practice",
-    position: "Full-Stack Developer",
-    time: "2024",
-    location: "Practice",
+    position: "Dezvoltator Full-Stack",
+    time: "2025",
+    location: "Practica de vară",
     description:
-      "Developed and deployed a finance-tracking full-stack application using the PERN stack.",
+      "Aplicație de urmărire a finanțelor pe stack PERN, cu autentificare și grafice.",
     tech: [
       "React",
       "TypeScript",
@@ -49,29 +48,29 @@ const experience = [
   },
   {
     title: "Lazău Andrei-Tudor PFA (Freelance)",
-    position: "Frontend / Full-Stack Developer",
-    time: "2023 – Present",
+    position: "Frontend / Full-Stack",
+    time: "2023 – Prezent",
     location: "Remote",
     description:
-      "Professional freelance entity focusing on high-quality software development, frontend engineering, animations, and scalable web apps. Emphasis on best coding practices, performance, and maintainability.",
+      "Entitate freelance orientată pe UI/UX performant, animații și aplicații scalabile. Practici solide de cod, performanță și mentenanță.",
     tech: ["React", "TypeScript", "GSAP", "MERN", "Tailwind"],
   },
   {
     title: "Second Cycle",
     position: "Frontend Developer",
     time: "2024",
-    location: "Innovation Labs (Romania)",
+    location: "Innovation Labs (RO)",
     description:
-      "Part of a web dev team that qualified for the national semifinals of Innovation Labs. Built the frontend for an e-commerce platform for used bicycles: auth, shopping cart UI, and user profile.",
+      "Parte din echipa web calificată în semifinalele naționale Innovation Labs. Frontend pentru e-commerce biciclete: autentificare, coș, profil utilizator.",
     tech: ["React", "TypeScript", "Node.js", "Express", "MongoDB"],
   },
   {
     title: "NGO Connect",
-    position: "Full-Stack Developer",
+    position: "Dezvoltator Full-Stack",
     time: "2024",
-    location: "Project",
+    location: "Proiect",
     description:
-      "Comprehensive platform for NGOs to manage events and volunteers: post events, track participation, and streamline communication. Volunteers can browse, register, and receive updates.",
+      "Platformă pentru ONG-uri: gestionare evenimente și voluntari, înscrieri și notificări în timp real.",
     tech: [
       "React",
       "TypeScript",
@@ -88,7 +87,11 @@ export default function ExperiencePage() {
   const circleRef = useRef<HTMLDivElement | null>(null);
   const cardsRef = useRef<HTMLDivElement | null>(null);
 
-  // Entry circle overlay
+  // respectă prefers-reduced-motion
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
   useGSAP(() => {
     const c = circleRef.current;
     if (!c) return;
@@ -100,7 +103,7 @@ export default function ExperiencePage() {
     });
     const tl = gsap.to(c, {
       scale: 0,
-      duration: 1.5,
+      duration: 1.2,
       ease: "power2.inOut",
       onComplete: () => {
         gsap.set(c, { display: "none" });
@@ -109,20 +112,26 @@ export default function ExperiencePage() {
     return () => tl.kill();
   }, []);
 
-  // Stagger in the cards
+  // Stagger carduri (GSAP dinamic)
   useEffect(() => {
-    if (!cardsRef.current) return;
-    const items = cardsRef.current.querySelectorAll("[data-card]");
-    gsap.set(items, { y: 24, opacity: 0, rotate: 0.2 });
-    gsap.to(items, {
-      y: 0,
-      opacity: 1,
-      rotate: 0,
-      duration: 0.6,
-      ease: "power2.out",
-      stagger: 0.06,
-    });
-  }, []);
+    if (prefersReduced || !cardsRef.current) return;
+    let kill = () => {};
+    (async () => {
+      const { default: gsap } = await import("gsap");
+      const items = cardsRef.current!.querySelectorAll("[data-card]");
+      gsap.set(items, { y: 24, opacity: 0, rotate: 0.2 });
+      const anim = gsap.to(items, {
+        y: 0,
+        opacity: 1,
+        rotate: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.06,
+      });
+      kill = () => anim.kill();
+    })();
+    return () => kill();
+  }, [prefersReduced]);
 
   return (
     <div className="min-h-screen bg-white text-black relative overflow-hidden">
@@ -136,28 +145,32 @@ export default function ExperiencePage() {
         />
       </div>
 
-      {/* Background: simple grid in black/white */}
-      <div className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_1px_1px,#000_1px,transparent_1px)] [background-size:16px_16px]" />
+      {/* Fundal discret tip grid */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_1px_1px,#000_1px,transparent_1px)] [background-size:16px_16px]"
+      />
 
       {/* Hero */}
-      <header className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-12 border-b-4 border-black">
+      <header className="relative z-10 max-w-6xl mx-auto px-6 pt-20 md:pt-5 pb-10 border-b-4 border-black">
         <div className="inline-flex items-center gap-2 mb-4">
-          <Badge>Experience</Badge>
-          <span className="text-xs font-semibold">Updated • v2</span>
+          <Badge>Experiență</Badge>
+          <span className="text-xs font-semibold">Actualizat • v2</span>
         </div>
         <h1 className="text-5xl sm:text-6xl font-black tracking-tight leading-[0.95]">
-          Sharp, bold, minimal.
-          <span className="block">Black & White web experiences.</span>
+          Roluri și proiecte cu impact.
+          <span className="block">Precizie, ritm și claritate.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-base sm:text-lg font-medium">
-          Roles and projects — built with precision, speed, and no distractions.
+          O selecție de colaborări și produse livrate—orientate pe performanță,
+          accesibilitate și rezultate măsurabile.
         </p>
       </header>
 
-      {/* Content */}
+      {/* Conținut */}
       <main
-        className="relative z-10 max-w-6xl mx-auto px-6 pb-24"
         ref={cardsRef}
+        className="relative z-10 max-w-6xl mx-auto px-6 pb-24"
       >
         <div className="grid sm:grid-cols-2 gap-6 mt-12">
           {experience.map((item) => (
@@ -168,9 +181,9 @@ export default function ExperiencePage() {
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="text-2xl font-extrabold leading-tight">
+                  <h2 className="text-2xl font-extrabold leading-tight">
                     {item.title}
-                  </h3>
+                  </h2>
                   <p className="text-sm font-semibold opacity-80">
                     {item.position}
                   </p>
@@ -200,20 +213,20 @@ export default function ExperiencePage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t-4 border-black bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-3 h-3 bg-black" />
-            <span className="text-sm font-bold">
-              Andrei‑Tudor Lazău — Experience
-            </span>
-          </div>
-          <div className="flex gap-2">
-            <Pill>Contact Me</Pill>
-          </div>
-        </div>
-      </footer>
+      {/* A11y: focus & reduced motion */}
+      <style jsx>{`
+        :global(a:focus-visible),
+        :global(button:focus-visible) {
+          outline: 3px solid #000;
+          outline-offset: 3px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          :global(*) {
+            transition: none !important;
+            animation: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

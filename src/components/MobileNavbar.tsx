@@ -10,11 +10,11 @@ import Link from "next/link";
 gsap.registerPlugin(useGSAP);
 
 const LINKS = [
-  { title: "Home", href: "/home" },
-  { title: "Portfolio", href: "/portofolio" },
-  { title: "Experience", href: "/experience" },
-  { title: "Services", href: "/services" },
-  { title: "About", href: "/about" },
+  { title: "Acasa", href: "/acasa" },
+  { title: "Portofoliu", href: "/portofoliu" },
+  { title: "Experienta", href: "/experienta" },
+  { title: "Servicii", href: "/servicii" },
+  { title: "Despre", href: "/despre" },
   { title: "Contact", href: "/contact" },
 ];
 

@@ -14,35 +14,35 @@ type Props = {
 };
 
 export default function ComicIntroWithNav({
-  name = "Andrei-Tudor Lazău",
-  role = "Frontend & Full-Stack Developer",
+  name = "Lazău Andrei-Tudor",
+  role = "Dezvoltator Frontend & Full-Stack",
   skills = ["React", "Next.js", "TypeScript", "Node.js", "GSAP", "Tailwind"],
-  passions = ["Basketball", "Gaming", "Movies", "Tech"],
+  passions = ["Baschet", "Jocuri", "Filme", "Tehnologie"],
   portraitSrc = "/portrait.png",
 }: Props) {
-  const [index, setIndex] = useState(0); // 0 = Intro, 1 = Passions
+  const [index, setIndex] = useState(0); // 0 = Intro, 1 = Pasiuni
 
   const bubbles = useMemo(
     () => [
       {
         key: "intro",
-        title: "Hello there—",
-        heading: `I’m ${name}.`,
-        body: `${role}. I build crisp, fast interfaces with a touch of motion.`,
-        listLabel: "My skills:",
+        title: "Salut —",
+        heading: `Eu sunt ${name}.`,
+        body: `${role}. Construiesc interfețe rapide și curate, cu un strop de animație.`,
+        listLabel: "Tehnologii:",
         list: skills,
-        ctas: true,
-        caption: "Introducing…",
+        ctas: false, // ❗️butonetele scoase din primul slide
+        caption: "Introducere",
       },
       {
         key: "passions",
-        title: "When I’m not coding…",
-        heading: "I’m into:",
-        body: "They keep my design eye sharp, reaction time quick, and my teamwork instinct strong.",
+        title: "Când nu scriu cod…",
+        heading: "Fac una dintre",
+        body: "",
         listLabel: "",
         list: passions,
         ctas: false,
-        caption: "Passions",
+        caption: "Pasiuni",
       },
     ],
     [name, role, skills, passions]
@@ -58,32 +58,32 @@ export default function ComicIntroWithNav({
   );
 
   return (
-    <section className="w-full mt-14 md:mt-0 px-4 sm:px-6 py-10">
-      {/* Desktop = clean 2-col grid; Mobile = stacked */}
+    <section className="w-full md:mt-0 px-4 sm:px-6 py-10">
+      {/* Desktop = 2 coloane; Mobil = stivuit */}
       <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start">
-        {/* LEFT: Portrait panel */}
+        {/* STÂNGA: Portret */}
         <div className="md:col-span-5">
           <div className="relative bg-white border-4 border-black shadow-[12px_12px_0_0_#000] p-2 w-fit mx-auto md:mx-0">
             <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:radial-gradient(#000_1px,transparent_1px)] [background-size:8px_8px]" />
             <Image
               src={portraitSrc}
-              alt={`${name} portrait`}
+              alt={`Portret ${name}`}
               width={360}
               height={420}
               className="relative z-10 w-[min(80vw,360px)] md:w-[360px] h-auto object-cover select-none"
               priority
             />
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 z-10 text-[10px] uppercase font-black bg-white border-2 border-black px-2 py-1 shadow-[4px_4px_0_0_#000]">
-              It’s me!
+              Eu sunt!
             </div>
 
-            {/* corner ticks */}
+            {/* colțuri decorative */}
             <div className="pointer-events-none absolute -top-2 -left-2 w-4 h-4 bg-black" />
             <div className="pointer-events-none absolute -bottom-2 -right-2 w-4 h-4 bg-black" />
           </div>
         </div>
 
-        {/* RIGHT: Bubble (flows normally on desktop) */}
+        {/* DREAPTA: Bulă */}
         <div className="md:col-span-7">
           <div className="relative w-full max-w-[720px] md:mx-0 mx-auto">
             <AnimatePresence mode="wait">
@@ -131,27 +131,10 @@ export default function ComicIntroWithNav({
                     </div>
                   ) : null}
 
-                  {bubbles[index].ctas && (
-                    <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-3">
-                      <Link
-                        href="/portofolio"
-                        className="w-full sm:w-auto text-center px-4 py-3 border-4 border-black bg-white text-sm font-black uppercase shadow-[6px_6px_0_0_#000] active:translate-x-0.5 active:-translate-y-0.5"
-                      >
-                        View Work
-                      </Link>
-                      <Link
-                        href="/contact"
-                        className="w-full sm:w-auto text-center px-4 py-3 border-4 border-black bg-white text-black text-sm font-black uppercase shadow-[6px_6px_0_0_#000] active:translate-x-0.5 active:-translate-y-0.5"
-                      >
-                        Contact Me
-                      </Link>
-                    </div>
-                  )}
+                  {/* ctas au fost eliminate din primul slide (și sunt false peste tot) */}
                 </div>
 
-                {/* Tails:
-                    - mobile: tail up (points to portrait above)
-                    - desktop: tail left (points to portrait column) */}
+                {/* Cozi pentru bulă: sus pe mobil, stânga pe desktop */}
                 <div className="md:hidden">
                   <BubbleTail
                     direction="up"
@@ -165,30 +148,33 @@ export default function ComicIntroWithNav({
                   />
                 </div>
 
-                {/* Caption tag */}
+                {/* Etichetă */}
                 <div className="absolute -top-4 left-4 text-[10px] uppercase bg-white border-2 border-black px-2 py-1 font-black shadow-[4px_4px_0_0_#000]">
                   {bubbles[index].caption}
                 </div>
               </motion.div>
             </AnimatePresence>
 
-            {/* Controls */}
+            {/* Controale */}
             <div className="flex flex-col sm:flex-row mt-6 items-stretch sm:items-center gap-2">
               <button
                 onClick={goPrev}
                 className="px-4 py-3 border-4 border-black bg-white text-black text-xs font-black uppercase shadow-[4px_4px_0_0_#000] active:translate-x-0.5 active:-translate-y-0.5"
-                aria-label="Previous bubble"
+                aria-label="Slide anterior"
               >
-                Prev
+                Înapoi
               </button>
               <button
                 onClick={goNext}
                 className="px-4 py-3 border-4 border-black bg-black text-white text-xs font-black uppercase shadow-[4px_4px_0_0_#000] active:translate-x-0.5 active:-translate-y-0.5"
-                aria-label="Next bubble"
+                aria-label="Slide următor"
               >
-                Next
+                Înainte
               </button>
-              <div className="sm:ml-2 text-[10px] font-black uppercase self-center">
+              <div
+                className="sm:ml-2 text-[10px] font-black uppercase self-center"
+                aria-live="polite"
+              >
                 {index + 1} / {bubbles.length}
               </div>
             </div>
@@ -199,7 +185,7 @@ export default function ComicIntroWithNav({
   );
 }
 
-/** Comic speech tail */
+/** Coada balonului de dialog */
 function BubbleTail({
   direction = "left",
   className = "",
@@ -210,9 +196,9 @@ function BubbleTail({
   if (direction === "up") {
     return (
       <div aria-hidden className={`absolute ${className} w-0 h-0 rotate-180`}>
-        {/* outline */}
+        {/* contur */}
         <div className="absolute -left-1 -top-1 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[26px] border-t-black" />
-        {/* fill */}
+        {/* umplere */}
         <div className="relative border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[26px] border-t-white translate-y-1" />
       </div>
     );
@@ -222,9 +208,9 @@ function BubbleTail({
   const rot = direction === "left" ? "-rotate-90" : "rotate-90";
   return (
     <div aria-hidden className={`absolute ${side} ${className} w-0 h-0 ${rot}`}>
-      {/* outline */}
+      {/* contur */}
       <div className="absolute -left-1 -top-1 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[26px] border-t-black" />
-      {/* fill */}
+      {/* umplere */}
       <div className="relative border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[26px] border-t-white translate-y-1" />
     </div>
   );

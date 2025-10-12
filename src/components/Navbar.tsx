@@ -69,44 +69,51 @@ const Navbar = () => {
   });
 
   const tabs = [
-    "Home",
-    "Portofolio",
-    "Experience",
-    "Services",
-    "About",
+    "Acasa",
+    "Portofoliu",
+    "Experienta",
+    "Servicii",
+    "Despre",
     "Contact",
   ];
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
     <>
-      <MobileNavNeoBrutalist />
+      {/* NEW: sticky container that sets height & positioning context */}
+      <header className="sticky top-0 z-50 h-16 md:h-20 bg-white/90 backdrop-blur border-b border-black/10 relative">
+        {/* keep your mobile nav exactly as-is */}
+        <div className="absolute inset-0 md:hidden flex items-center">
+          <MobileNavNeoBrutalist />
+        </div>
 
-      <ul
-        onMouseLeave={() => {
-          setPosition((pv) => ({
-            ...pv,
-            opacity: 0,
-          }));
-        }}
-        className="absolute top-[40px] left-[50%] z-50 hidden w-[500px] -translate-x-[75%] -translate-y-1/2 justify-around md:flex"
-      >
-        {tabs.map((tab) => (
-          <Tab
-            key={tab}
-            text={tab}
-            selected={selected === tab}
-            setSelected={setSelected}
-            setPosition={setPosition}
-            onPress={() => handleTabPress(tab)}
-          />
-        ))}
-        <Cursor position={position} />
-      </ul>
+        {/* SAME UL, but now positioned relative to the header, centered vertically */}
+        <ul
+          onMouseLeave={() => setPosition((pv) => ({ ...pv, opacity: 0 }))}
+          className="
+          absolute left-1/2 top-1/2 -translate-x-[75%] -translate-y-1/2
+          z-50 hidden md:flex w-[500px] justify-around
+        "
+        >
+          {tabs.map((tab) => (
+            <Tab
+              key={tab}
+              text={tab}
+              selected={selected === tab}
+              setSelected={setSelected}
+              setPosition={setPosition}
+              onPress={() => handleTabPress(tab)}
+            />
+          ))}
+          <Cursor position={position} />
+        </ul>
+      </header>
+
+      {/* your GSAP overlay stays */}
       <div
         ref={roundRef}
         className="bg-black rounded-full z-[9999] w-[100px] pointer-events-none"
-      ></div>
+      />
     </>
   );
 };
