@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Orbitron } from "next/font/google";
 
 // app/layout.tsx
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  // load the weights you actually use in Tailwind (e.g., font-semibold=600, font-bold=700, font-black=900)
+  weight: ["400", "600", "700", "900"],
+  variable: "--font-orbitron",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lazau-tudor.ro"),
@@ -25,16 +33,6 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,11 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${orbitron.variable} antialiased`}>{children}</body>
     </html>
   );
 }
