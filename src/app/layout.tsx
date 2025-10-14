@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
 import { Orbitron } from "next/font/google";
@@ -10,9 +11,6 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  other: {
-    "google-site-verification": "eE35_pFEE7nfzYLenoEuuB-V3uPl_hrgu3VW0s",
-  },
   metadataBase: new URL("https://lazau-tudor.ro"),
   title: "Dezvoltator Web Freelance în Timișoara | Lazău Andrei-Tudor",
   description:
@@ -27,9 +25,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Lazău Andrei-Tudor" }],
   creator: "Lazău Andrei-Tudor",
   publisher: "Lazău Andrei-Tudor",
-  alternates: {
-    canonical: "https://lazau-tudor.ro",
-  },
+  alternates: { canonical: "/" }, // se va rezolva absolut via metadataBase
   robots: {
     index: true,
     follow: true,
@@ -44,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "ro_RO",
-    url: "https://lazau-tudor.ro",
+    url: "/",
     siteName: "Lazău Andrei-Tudor - Dezvoltator Web",
     title: "Dezvoltator Web Freelance în Timișoara",
     description:
@@ -71,9 +67,10 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   verification: {
-    // Add when you set up Google Search Console
-    // google: "your-google-verification-code",
+    google: "eE35_pFEE7nfzYLenoEuuB-V3uPl_hrgu3VW0s", // folosește ACELAȘI cod, fără variații
   },
+  // dacă vrei și în <meta name="google-site-verification"> neacoperit de verification:
+  // other: { "google-site-verification": "eE35_pFEE7nfzYLenoEuuB-V3uPl_hrgu3VW0s" },
 };
 
 export default function RootLayout({
@@ -83,12 +80,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ro">
-      <head>
-        <meta
-          name="google-site-verification"
-          content="eE35_pFEE7nfzYLenoEuuB-V3uPI_hrgu3VWoSwVvnU"
-        />
-      </head>
       <body className={`${orbitron.variable} antialiased`}>{children}</body>
     </html>
   );
