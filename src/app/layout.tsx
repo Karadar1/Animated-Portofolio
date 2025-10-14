@@ -83,6 +83,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ro">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="eE35_pFEE7nfzYLenoEuuB-V3uPI_hrgu3VWoSwVvnU"
+        />
+      </head>
       <body className={`${orbitron.variable} antialiased`}>{children}</body>
     </html>
   );
