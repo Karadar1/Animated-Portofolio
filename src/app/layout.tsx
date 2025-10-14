@@ -10,6 +10,9 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
+  other: {
+    "google-site-verification": "eE35_pFEE7nfzYLenoEuuB-V3uPl_hrgu3VW0s",
+  },
   metadataBase: new URL("https://lazau-tudor.ro"),
   title: "Dezvoltator Web Freelance în Timișoara | Lazău Andrei-Tudor",
   description:
